@@ -23,7 +23,7 @@ public class ManagementSystem {
         return new ArrayList<>(doctors.values());
     }
 
-        public Doctor getDoctor(int id){
+    public Doctor getDoctor(int id){
         return doctors.get(id);
     }
 }
