@@ -1,5 +1,5 @@
 public class MicrobiologicalExamination extends Exam {
-    String sampleType;
+    private String sampleType;
     final double costIncreaseRate = 0.2;
 
     public MicrobiologicalExamination(int examID, String examName, String examCategory, int maxSlotsPerDay, int cost, int doctorID, String sampleType){
