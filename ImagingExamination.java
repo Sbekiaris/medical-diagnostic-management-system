@@ -1,5 +1,5 @@
 public class ImagingExamination extends Exam {
-    String machineType;
+    private String machineType;
     final double costIncreaseRate = 0.1;
 
     public ImagingExamination(int examID, String examName, String examCategory, int maxSlotsPerDay, int cost, int doctorID, String machineType){

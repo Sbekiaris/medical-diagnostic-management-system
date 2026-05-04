@@ -1,5 +1,5 @@
 public class SpecializedExamination extends Exam {
-    String examSpecialty;
+    private String examSpecialty;
     final double costIncreaseRate = 0.3;
 
     public SpecializedExamination(int examID, String examName, String examCategory, int maxSlotsPerDay, int cost, int doctorID, String examSpecialty){

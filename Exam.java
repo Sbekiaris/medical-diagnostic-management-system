@@ -1,4 +1,4 @@
-abstract class Exam{
+public abstract class Exam{
     private int examID;
     private String examName;
     private String examCategory;
@@ -31,7 +31,7 @@ abstract class Exam{
         return maxSlotsPerDay;
     }
     
-    public int getCostValue(){
+    public double getCostValue(){
         return cost;
     }
 
