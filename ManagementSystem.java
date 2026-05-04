@@ -38,17 +38,33 @@ public class ManagementSystem {
     
     // doctors methods
 
-    public void addDoctor(String name, String phone, String specialty, int years){
+    // add doctor
+    public void addDoctor(String name, String phone, String specialty, int years){  
         int id = getNextDoctorID();
         Doctor doctor = new Doctor(id, name, phone, specialty, years);
         doctors.put(id, doctor);
     }
     
+    // get all doctors
     public ArrayList<Doctor> getAllDoctors(){
         return new ArrayList<>(doctors.values());
     }
 
+    // get a doctor
     public Doctor getDoctor(int id){
         return doctors.get(id);
     }
+
+    // doctor appointment 
+    public ArrayList<Appointment> getDoctorAppointment(int doctorId){
+        ArrayList<Appointment> result = new ArrayList<>();
+        for (Appointment a : appointments.values()) {
+            Exam e = exams.get(a.getExamId());
+            if (e != null && e.getDoctorID() == doctorId) {
+                result.add(a);
+            }
+        }
+        return result;
+    }
+
 }
