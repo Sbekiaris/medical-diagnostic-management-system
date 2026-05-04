@@ -19,7 +19,7 @@ public class SpecializedExamination extends Exam {
         this.examSpecialty=examSpecialty;
     }
 
-    @Override
+1234555
     public double getCost(boolean fastResults){
         double examCost = this.getCostValue();
         if(fastResults){
