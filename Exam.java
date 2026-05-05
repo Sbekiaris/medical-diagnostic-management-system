@@ -39,6 +39,6 @@ public abstract class Exam{
         return doctorID;
     }
 
-    public abstract double getCost(boolean fastResults);
+    public abstract double getCost(boolean fastResults); // takes a boolean fastResults parameter to determine whether a patient wants fastResults
 
 }
