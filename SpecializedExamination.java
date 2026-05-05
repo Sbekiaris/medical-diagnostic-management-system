@@ -2,7 +2,7 @@ public class SpecializedExamination extends Exam {
     private String examSpecialty;
     final double costIncreaseRate = 0.3;
 
-    public SpecializedExamination(int examID, String examName, String examCategory, int maxSlotsPerDay, int cost, int doctorID, String examSpecialty){
+    public SpecializedExamination(int examID, String examName, String examCategory, int maxSlotsPerDay, double cost, int doctorID, String examSpecialty){
         super(examID, examName, examCategory, maxSlotsPerDay, cost, doctorID);
         this.examSpecialty=examSpecialty;
     }
