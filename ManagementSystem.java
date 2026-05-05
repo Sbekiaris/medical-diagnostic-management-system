@@ -45,8 +45,8 @@ public class ManagementSystem {
         doctors.put(id, doctor);
     }
     
-    // get all doctors
-    public ArrayList<Doctor> getAllDoctors(){
+    // display all doctors
+    public ArrayList<Doctor> displayAllDoctors(){
         return new ArrayList<>(doctors.values());
     }
 

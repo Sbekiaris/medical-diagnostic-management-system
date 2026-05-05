@@ -3,10 +3,10 @@ public abstract class Exam{
     private String examName;
     private String examCategory;
     private int maxSlotsPerDay;
-    private int cost;
+    private double cost;
     private int doctorID;
 
-    public Exam(int examID, String examName, String examCategory, int maxSlotsPerDay, int cost, int doctorID){
+    public Exam(int examID, String examName, String examCategory, int maxSlotsPerDay, double cost, int doctorID){
         this.examID=examID;
         this.examName=examName;
         this.examCategory=examCategory;
