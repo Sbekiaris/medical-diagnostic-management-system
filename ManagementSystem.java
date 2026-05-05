@@ -46,10 +46,8 @@ public class ManagementSystem {
     }
     
     // display all doctors
-    public void displayAllDoctors(){
-        doctors.values()
-               .stream()
-               .forEach(System.out::println);
+    public ArrayList<Doctor> displayAllDoctors(){
+        return new ArrayList<>(doctors.values());
     }
 
     // get a doctor
