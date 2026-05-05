@@ -97,4 +97,20 @@ public class ManagementSystem {
         return patients.get(id);    // TODO: show appointment for corresponding appointment in Menus
     }
 
+    // exams methods
+
+    // add exam
+    public void addExam(String examName, String categoryName, int maxSlotsPerDay, double cost, int doctorID, String examType){
+        int id = getNextExamID();
+        Exam exam;
+        if(categoryName.equals("Imaging")){
+            exam = new ImagingExamination(id, examName, categoryName, maxSlotsPerDay, cost, doctorID, examType);
+        } else if(categoryName.equals("Microbiological")){
+            exam = new MicrobiologicalExamination(id, examName, categoryName, maxSlotsPerDay, cost, doctorID, examType);
+        } else{
+            exam = new SpecializedExamination(id, examName, categoryName, maxSlotsPerDay, cost, doctorID, examType);
+        }
+        exams.put(id, exam);
+    }
+
 }
