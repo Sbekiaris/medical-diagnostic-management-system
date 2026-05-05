@@ -1,9 +1,10 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ManagementSystem {
     private HashMap<Integer, Doctor> doctors;
     private HashMap<Integer, Patient> patients;
-    private HashMap<Integer, Exam> exams; // TODO: should it be HashMap or ArrayList?
+    private HashMap<Integer, Exam> exams;
     private HashMap<Integer, Appointment> appointments;
     private int doctorCounter = 1;
     private int patientCounter = 1;
@@ -111,6 +112,14 @@ public class ManagementSystem {
             exam = new SpecializedExamination(id, examName, categoryName, maxSlotsPerDay, cost, doctorID, examType);
         }
         exams.put(id, exam);
+    }
+
+    // get all exams sorted
+    public ArrayList<Exam> getAllExams(){
+        return exams.values()
+                    .stream() // convert Collection to stream
+                    .sorted(Comparator.comparing(Exam::getExamName, String.CASE_INSENSITIVE_ORDER)) // order by Exam Name
+                    .collect(Collectors.toCollection(ArrayList::new)); // convert to a new ArrayList<>()
     }
 
 }
