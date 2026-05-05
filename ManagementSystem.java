@@ -51,7 +51,7 @@ public class ManagementSystem {
     }
 
     // get a doctor
-    public Doctor getDoctor(int id){    // TODO: 
+    public Doctor getDoctor(int id){    // TODO: show doctor - exams in Menus
         return doctors.get(id);
     }
 
@@ -60,7 +60,7 @@ public class ManagementSystem {
         ArrayList<Appointment> result = new ArrayList<>();
         for (Appointment a : appointments.values()){
             Exam e = exams.get(a.getExamId());
-            if(e != null && e.getDoctorID() == doctorId) {
+            if(e != null && e.getDoctorID() == doctorId) { // in order to the the corresponding appointment from doctorID, we needed the examid  
                 result.add(a);
             }
         }
@@ -94,7 +94,7 @@ public class ManagementSystem {
 
      // get a patient
     public Patient getPatient(int id){
-        return patients.get(id);
+        return patients.get(id);    // TODO: show appointment for corresponding appointment in Menus
     }
 
 }
