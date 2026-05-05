@@ -1,15 +1,15 @@
 public abstract class Exam{
     private int examID;
     private String examName;
-    private String examCategory;
+    private String categoryName;
     private int maxSlotsPerDay;
     private double cost;
     private int doctorID;
 
-    public Exam(int examID, String examName, String examCategory, int maxSlotsPerDay, double cost, int doctorID){
+    public Exam(int examID, String examName, String categoryName, int maxSlotsPerDay, double cost, int doctorID){
         this.examID=examID;
         this.examName=examName;
-        this.examCategory=examCategory;
+        this.categoryName=categoryName;
         this.maxSlotsPerDay=maxSlotsPerDay;
         this.cost=cost;
         this.doctorID=doctorID;
@@ -23,8 +23,8 @@ public abstract class Exam{
         return examName;
     }
 
-    public String getExamCategory(){
-        return examCategory;
+    public String getCategoryName(){
+        return categoryName;
     }
 
     public int getMaxSlotsPerDay(){
@@ -39,6 +39,6 @@ public abstract class Exam{
         return doctorID;
     }
 
-    abstract double getCost(boolean fastResults);
+    public abstract double getCost(boolean fastResults); // takes a boolean fastResults parameter to determine whether a patient wants fastResults
 
 }
