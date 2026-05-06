@@ -1,4 +1,4 @@
-public class MicrobiologicalExamination extends Exam {
+public class MicrobiologicalExamination extends Exam{
     private String sampleType;
     final double costIncreaseRate = 0.2;
 

@@ -1,4 +1,4 @@
-public class Patient {
+public class Patient{
     private int patientID;
     private String patientName;
     private String patientPhone;
