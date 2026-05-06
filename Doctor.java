@@ -57,6 +57,13 @@ public class Doctor {
         this.years=years;
     }
 
+    @Override
+    public String toString() {
+        return "Doctor ID: " + doctorID +
+            ", Name: " + doctorName +
+            ", Phone: " + doctorPhone +
+            ", Specialty: " + specialty +
+            ", Years: " + years;
+    }
 
-    
 }

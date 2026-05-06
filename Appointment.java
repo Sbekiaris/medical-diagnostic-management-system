@@ -6,6 +6,7 @@ public class Appointment {
     private int examId;
     private boolean fastResults;
     private LocalDate examDate;
+    private boolean deleted;  //Shows if appoinement is deleted
 
     public Appointment(int appointmentId, int patientID, int examId, boolean fastResults, LocalDate examDate){
         this.appointmentId=appointmentId;
@@ -13,6 +14,7 @@ public class Appointment {
         this.examId=examId;
         this.fastResults=fastResults;
         this.examDate=examDate;
+        this.deleted = false ; //Not deleted,management system switches to true
     }
 
     // setters
@@ -59,4 +61,20 @@ public class Appointment {
         this.examDate=examDate;
     }
     
+     public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment ID : " + appointmentId +
+            ", Patient ID : " + patientID +
+            ", Exam: " + examId +
+            ", Fast Results: " + fastResults +
+            ", Exam Date: " + examDate;
+    }
 }

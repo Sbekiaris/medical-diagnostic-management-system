@@ -30,4 +30,10 @@ public class ImagingExamination extends Exam {
         }
     }
     
+    @Override
+    public String toString() {
+        return super.toString() +
+            ", Machine Type: " + machineType;
+    }
+
 }

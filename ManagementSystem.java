@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -122,4 +123,186 @@ public class ManagementSystem {
                     .collect(Collectors.toCollection(ArrayList::new)); // convert to a new ArrayList<>()
     }
 
+
+    //Show Single exam
+    public Exam getExam(int id){        //Shows exam if found by id
+        return exams.get(id);
+    }
+
+    public ArrayList<Appointment> getAppointmentsByExam(int examId) {
+    ArrayList<Appointment> result = new ArrayList<>();
+
+    for (Appointment appointment : appointments.values()) {         //Returns list if appointment not deleted and exam id matches
+        if (!appointment.isDeleted() && appointment.getExamId() == examId) { 
+            result.add(appointment);
+        }
+    }
+
+    return result;
 }
+
+
+
+    //appointment methods
+
+    //add appointment
+    public void addAppointment(int patientID, int examId, boolean fastResults, LocalDate examDate){
+        int id = getNextAppointmentID();    
+        int counter = 0; // Counts how many Appointments made in same date
+
+        Exam exam = exams.get(examId);
+
+        for (Appointment appointment : appointments.values()){
+            if (appointment.getExamId() == examId && appointment.getExamDate().equals(examDate)){
+                counter ++ ;
+            }
+
+        }
+
+        if (counter>exam.getMaxSlotsPerDay()){
+            System.out.println("No available slots for this exam on this date.");
+                return ;
+        }
+
+        Appointment appointment = new Appointment(id, patientID, examId, fastResults, examDate);
+            appointments.put(id, appointment);
+    }
+
+    //get all appointments
+    public ArrayList<Appointment> getAllAppointments(){
+        return new ArrayList<>(appointments.values());
+    }
+
+    //get one appointment
+    public Appointment getAppointment(int id){
+        return appointments.get(id);    
+    }
+
+    //get appointment by patient
+    public ArrayList<Appointment> getAppointmentsByPatient(int patientID) {
+        ArrayList<Appointment> result = new ArrayList<>();  //New list
+        
+        for (Appointment appointment : appointments.values()){
+                if (appointment.getPatientID() == patientID){
+                    result.add(appointment);
+                }
+        }
+
+        return result; //Show the list
+    }
+
+    //remove appointment
+    public boolean removeAppointment(int appointmentId){
+        Appointment appointment = appointments.get(appointmentId);
+        
+        if (appointment == null || appointment.isDeleted()){
+            return false;
+        }
+
+        appointment.setDeleted(true);
+            return true;
+    }
+    
+    //show all appointments
+    public ArrayList<Appointment> getAppointmentByDate(LocalDate examDate){
+        ArrayList<Appointment> result = new ArrayList<>();
+
+        for (Appointment appointment : appointments.values()){
+            if(!appointment.isDeleted() && appointment.getExamDate().equals(examDate)){
+                result.add(appointment);
+            }
+        }
+
+        return result; //Prints list on specific date 
+
+    }
+
+
+    //Statistics
+
+    //Appointment cost
+    public double calculateAppointmentsCost(Appointment appointment){
+        Exam exam = exams.get(appointment.getExamId());
+
+        if (exam == null || appointment.isDeleted()){
+            return 0;
+        }
+
+        return exam.getCost(appointment.getFastResults());
+
+    }
+
+    //Income Per Patient
+    public double calculateIncomePerPatient(int patientID){
+        double total = 0;
+
+        for (Appointment appointment : appointments.values()){
+            if(!appointment.isDeleted() && appointment.getPatientID() == patientID){
+                total = total + calculateAppointmentsCost(appointment);
+            }
+        }
+
+        return total;
+    }
+
+    //Total Income Per Exam
+    public double calculateTotalIncomeByExam(int examID) {
+    double total = 0;
+
+    for (Appointment appointment : appointments.values()) {
+        if (!appointment.isDeleted() && appointment.getExamId() == examID) {
+            total += calculateAppointmentsCost(appointment);
+        }
+    }
+
+    return total;
+    }
+
+    //Appointments per Category
+    public ArrayList<Appointment> getAppointmentsByCategory(String categoryName){
+        ArrayList<Appointment> result = new ArrayList<>();
+
+        for (Appointment appointment : appointments.values()){
+            if (!appointment.isDeleted()){
+                Exam exam = exams.get(appointment.getExamId());     //Finds category of exam
+                
+            
+
+            if (exam != null && exam.getCategoryName().equals(categoryName)){       //Checks if matches categoryName
+                result.add(appointment);
+            }
+            }
+        }
+        return result;
+    
+    }
+    
+    //Income per Category
+    public double calculateTotalRevenueByCategory(String categoryName) {
+        double total = 0;
+
+        for (Appointment appointment : getAppointmentsByCategory(categoryName)) {
+            total += calculateAppointmentsCost(appointment);
+        }   
+
+        return total;
+    }
+
+    //Total Income
+    public double calculateTotalRevenue() {
+        double total = 0;
+
+        for (Appointment appointment : appointments.values()) {
+            if (!appointment.isDeleted()) {
+                total += calculateAppointmentsCost(appointment);
+            }
+        }
+        return total;
+    }
+
+
+}
+
+
+
+

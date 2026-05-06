@@ -19,6 +19,10 @@ public abstract class Exam{
         return examID;
     }
 
+    public void setExamID(examID){
+        this.examID =examID;
+    }
+
     public String getExamName(){
         return examName;
     }
@@ -38,6 +42,17 @@ public abstract class Exam{
     public int getDoctorID(){
         return doctorID;
     }
+
+    @Override
+    public String toString() {
+        return "Exam ID: " + examID +
+            ", Name: " + examName +
+            ", Category: " + categoryName +
+            ", Max Slots Per Day: " + maxSlotsPerDay +
+            ", Cost: " + cost +
+            ", Doctor ID: " + doctorID;
+    }
+
 
     public abstract double getCost(boolean fastResults); // takes a boolean fastResults parameter to determine whether a patient wants fastResults
 

@@ -30,4 +30,10 @@ public class SpecializedExamination extends Exam {
         }
     }
     
+    @Override
+    public String toString() {
+        return super.toString() +
+            ", Exam Specialty: " + examSpecialty;
+    }
+
 }
