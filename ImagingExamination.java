@@ -1,4 +1,4 @@
-public class ImagingExamination extends Exam {
+public class ImagingExamination extends Exam{
     private String machineType;
     final double costIncreaseRate = 0.1;
 

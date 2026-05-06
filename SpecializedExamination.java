@@ -1,4 +1,4 @@
-public class SpecializedExamination extends Exam {
+public class SpecializedExamination extends Exam{
     private String examSpecialty;
     final double costIncreaseRate = 0.3;
 

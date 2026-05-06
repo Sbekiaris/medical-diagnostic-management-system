@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 
-public class Appointment {
+public class Appointment{
     private int appointmentId;
     private int patientID;
     private int examId;
