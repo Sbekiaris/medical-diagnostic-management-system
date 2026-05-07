@@ -29,5 +29,11 @@ public class SpecializedExamination extends Exam{
             return examCost;
         }
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+            ", Exam Specialty: " + examSpecialty;
+    }
     
 }
