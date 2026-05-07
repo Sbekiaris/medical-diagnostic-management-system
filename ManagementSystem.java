@@ -223,6 +223,19 @@ public class ManagementSystem{
         }
         return result;
     }
+
+    // get appointment by category
+
+    public ArrayList<Appointment> getAppointmentsByCategory(String categoryName){   // used for calculateRevenueByCategory
+        ArrayList<Appointment> result = new ArrayList<>();
+        for(Appointment appointment : appointments.values()){
+            Exam exam = exams.get(appointment.getExamId());
+            if(exam != null && exam.getCategoryName().equals(categoryName)){
+                result.add(appointment);
+            }
+        }
+        return result;
+    }
     
     // Statistics
 
@@ -241,9 +254,7 @@ public class ManagementSystem{
     public double calculateRevenueByPatient(int patientId){
         double total = 0.0;
         for(Appointment appointment : getAppointmentsByPatient(patientId)){
-            if(appointment.getPatientID() == patientId){
                 total += calculateAppointmentCost(appointment);
-            }
         }
         return total;
     }
@@ -253,11 +264,31 @@ public class ManagementSystem{
     public double calculateRevenueByExam(int examId){
         double total = 0.0;
         for(Appointment appointment : getAppointmentsByExam(examId)){
-            if(appointment.getExamId() == examId){
-                total += calculateAppointmentCost(appointment);
-            }
+            total += calculateAppointmentCost(appointment);
         }
         return total;
     }
+
+    // calculate revenue per category
+
+    public double calculateRevenueByCategory(String categoryName){
+        double total = 0.0;
+        for(Appointment appointment : getAppointmentsByCategory(categoryName)){
+            total += calculateAppointmentCost(appointment);
+        }
+        return total;
+    }
+
+    // calculate total revenue
+
+    public double calculateTotalRevenue(){  // this is the grand total
+        double total = 0.0;
+        for(Appointment appointment: appointments.values()){
+            total += calculateAppointmentCost(appointment);
+        }
+        return total;
+    }
+
+    
 
 }
