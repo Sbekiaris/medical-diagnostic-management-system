@@ -41,4 +41,14 @@ public abstract class Exam{
 
     public abstract double getCost(boolean fastResults); // takes a boolean fastResults parameter to determine whether a patient wants fastResults
 
+    @Override
+    public String toString() {
+        return "Exam ID: " + examID +
+            ", Name: " + examName +
+            ", Category: " + categoryName +
+            ", Max Slots Per Day: " + maxSlotsPerDay +
+            ", Cost: " + cost +
+            ", Doctor ID: " + doctorID;
+    }
+
 }

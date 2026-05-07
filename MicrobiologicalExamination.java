@@ -29,5 +29,11 @@ public class MicrobiologicalExamination extends Exam{
             return examCost;
         }
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+            ", Sample Type: " + sampleType;
+    }
     
 }

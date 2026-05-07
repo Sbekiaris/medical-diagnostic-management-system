@@ -58,5 +58,14 @@ public class Appointment{
     public void setExamDate(LocalDate examDate){
         this.examDate=examDate;
     }
+
+    @Override
+    public String toString() {
+        return "Appointment ID : " + appointmentId +
+            ", Patient ID : " + patientID +
+            ", Exam: " + examId +
+            ", Fast Results: " + fastResults +
+            ", Exam Date: " + examDate;
+    }
     
 }

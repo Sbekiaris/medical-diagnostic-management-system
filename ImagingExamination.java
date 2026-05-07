@@ -29,5 +29,11 @@ public class ImagingExamination extends Exam{
             return examCost;
         }
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+            ", Machine Type: " + machineType;
+    }
     
 }
