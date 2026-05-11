@@ -13,12 +13,12 @@ public class FileManager{
     public void saveDoctors(){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter("doctors.txt"))){
 
-            for (Doctor dοctor : system.getAllDoctors()) {
-                bw.write(dοctor.getDoctorID() + "," +
-                         dοctor.getDoctorName() + "," +
-                         dοctor.getDoctorPhone() + "," +
-                         dοctor.getSpecialty() + "," +
-                         dοctor.getYears());
+            for (Doctor doctor : system.getAllDoctors()) {
+                bw.write(doctor.getDoctorID() + "," +
+                         doctor.getDoctorName() + "," +
+                         doctor.getDoctorPhone() + "," +
+                         doctor.getSpecialty() + "," +
+                         doctor.getYears());
                 bw.newLine();
             }
 
