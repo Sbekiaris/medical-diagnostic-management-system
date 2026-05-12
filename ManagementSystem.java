@@ -289,6 +289,31 @@ public class ManagementSystem{
         return total;
     }
 
-    
+    // sync method for FileManager
+    public void syncCounters() {
 
+    // doctors
+    doctorCounter = doctors.keySet()
+            .stream()
+            .max(Integer::compare)
+            .orElse(0) + 1;
+
+    // patients
+    patientCounter = patients.keySet()
+            .stream()
+            .max(Integer::compare)
+            .orElse(0) + 1;
+
+    // exams
+    examCounter = exams.keySet()
+            .stream()
+            .max(Integer::compare)
+            .orElse(0) + 1;
+
+    // appointments
+    appointmentCounter = appointments.keySet()
+            .stream()
+            .max(Integer::compare)
+            .orElse(0) + 1;
+    }
 }

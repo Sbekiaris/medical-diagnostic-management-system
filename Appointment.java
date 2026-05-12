@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Appointment{
     private int appointmentId;
@@ -60,12 +61,13 @@ public class Appointment{
     }
 
     @Override
-    public String toString() {
+    public String toString(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd:MM:yyyy");
         return "Appointment ID : " + appointmentId +
             ", Patient ID : " + patientID +
             ", Exam: " + examId +
             ", Fast Results: " + fastResults +
-            ", Exam Date: " + examDate;
+            ", Exam Date: " + examDate.format(formatter);
     }
     
 }
