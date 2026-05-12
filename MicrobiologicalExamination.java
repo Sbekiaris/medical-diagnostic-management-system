@@ -31,7 +31,7 @@ public class MicrobiologicalExamination extends Exam{
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         return super.toString() +
             ", Sample Type: " + sampleType;
     }
