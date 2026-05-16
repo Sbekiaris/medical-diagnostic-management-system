@@ -356,11 +356,11 @@ public class Menus {
 
                     switch(choice){
                         case 1: 
-                            return "ECG";
+                            return "Holter";
                         case 2: 
                             return "EEG";
                         case 3: 
-                            return "Stress Test";
+                            return "SPT";
                         default:
                             System.out.println("Invalid choice");
                 }
