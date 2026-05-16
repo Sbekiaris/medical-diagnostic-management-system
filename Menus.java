@@ -21,7 +21,8 @@ public class Menus {
             System.out.println("5. Statistics");
             System.out.println("0. Exit");
             System.out.println("Choose an option, or press 0 to exit");
-            choice = scanner.nextInt();
+            choice = readInt();
+            
             switch(choice){
                 case 1:
                     doctorsMenu();
@@ -30,7 +31,7 @@ public class Menus {
                    patientsMenu();
                     break;
                 case 3:
-                    // examsMenu();
+                    examsMenu();
                     break;
                 case 4:
                     // appointmentsMenu();
@@ -61,16 +62,16 @@ public class Menus {
             System.out.println("4. Doctors Appointments");
             System.out.println("0. Return to Main Menu");
             System.out.println("Choose an option, or press 0 to go to Main Menu");
-            choice = scanner.nextInt();
+            choice = readInt();
+            
             switch(choice){
                 case 1:
-                    scanner.nextLine(); // clear newline from previous nextInt 
                     System.out.println("Enter Doctor's name:");
                     String name = scanner.nextLine();
                     System.out.println("Enter Doctor's phone");
                     String phone = scanner.nextLine();
                     System.out.println("Enter years of experience:");
-                    int years = Integer.parseInt(scanner.nextLine());
+                    int years = readInt();
                     String specialty = chooseSpecialty();
                     system.addDoctor(name, phone, specialty, years);
                     System.out.println("Doctor added successfully!");
@@ -83,8 +84,7 @@ public class Menus {
                     System.out.println("Doctors List");
                     printAllDoctors();
                     System.out.println("Enter doctor ID");
-                    int doctorId = scanner.nextInt();
-                    scanner.nextLine(); // clear newline
+                    int doctorId = readInt();
                     Doctor doctor = system.getDoctor(doctorId);
                     if(doctor == null){
                         System.out.println("Doctor not found");
@@ -102,8 +102,7 @@ public class Menus {
                     System.out.println("Doctors List");
                     printAllDoctors();
                     System.out.println("Enter doctor ID");
-                    int doctorId = scanner.nextInt();
-                    scanner.nextLine(); // clear newline
+                    int doctorId = readInt();
                     Doctor doctor = system.getDoctor(doctorId);
                     if(doctor == null){
                         System.out.println("Doctor not found");
@@ -138,11 +137,10 @@ public class Menus {
             System.out.println("3. Patients Appointments");
             System.out.println("0. Return to Main Menu");
             System.out.println("Choose an option, or press 0 to go to Main Menu");
-
-            choice = scanner.nextInt();
+            choice = readInt();
+            
             switch(choice){
                 case 1:
-                    scanner.nextLine(); // clear newline from previous nextInt 
                     System.out.println("Enter Patient's name: ");
                     String name = scanner.nextLine();
                     System.out.println("Enter Patient's phone: ");
@@ -160,8 +158,7 @@ public class Menus {
                     System.out.println("Patients List");
                     printAllPatients();
                     System.out.println("Enter a Patient ID to get all available Appointments");
-                    int patientId = scanner.nextInt();
-                    scanner.nextLine();  // clear newline
+                    int patientId = readInt();
                     Patient patient = system.getPatient(patientId);
                     if(patient == null){
                         System.out.println("Patient not found");
@@ -184,11 +181,81 @@ public class Menus {
 
         } while(choice !=0);
     }
+
+    // Exams Menu
+    private void examsMenu(){
+        int choice;
+        do{
+            System.out.println("\n=== EXAMS MENU ===");
+            System.out.println("1. Add an Exam");
+            System.out.println("2. Show all Exams");
+            System.out.println("3. Exam Appointments");
+            System.out.println("0. Return to Main Menu");
+            System.out.println("Choose an option, or press 0 to go to Main Menu");
+            choice = readInt();
+
+            switch(choice){
+                case 1:
+                    System.out.println("Doctors List");
+                    printAllDoctors();
+                    System.out.println("Enter Doctor's ID"); 
+                    int doctorId = readInt();
+                    Doctor doctor = system.getDoctor(doctorId);
+                    if(doctor == null){
+                        System.out.println("Doctor not found");
+                        break;
+                    }
+                    System.out.println("Enter exam name:");
+                    String examName = scanner.nextLine();
+                    String category = chooseExamCategory();
+                    String examType = chooseExamType(category);
+                    System.out.println("Enter max slots per day:");
+                    int maxSlotsPerDay = readInt();
+                    System.out.println("Enter cost:");
+                    double cost = readDouble();
+                    system.addExam(examName, category, maxSlotsPerDay, cost, doctorId, examType);
+                    System.out.println("Exam added successfully");
+                    break;
+                case 2:
+                    System.out.println("All Exams");
+                    printAllExams();
+                    break;
+                case 3:
+                    System.out.println("Exams List");
+                    printAllExams();
+                    System.out.println("Enter an Exam ID to get all Appointments");
+                    int examId = readInt();
+                    Exam exam = system.getExam(examId);
+                    if(exam == null){
+                        System.out.println("Exam not found");
+                        break;
+                    }
+                    System.out.println("Selected Exam");
+                    System.out.println(exam);
+                    System.out.println("Exam's Appointments");
+                    for(Appointment appointment : system.getAppointmentsByExam(examId)){
+                        System.out.println(appointment);
+                    }
+                    break;
+                case 0:
+                    System.out.println("Exiting Exams Menu...");
+                    break;
+                default:
+                    System.out.println("Please select 1 - 3 or press 0 to go to the Main Menu");
+
+            }
+
+        } while(choice !=0);
+    }
+    
+    // Appointments menu
+    // private void appointmentsMenu(){
+
+    // }
     
     // auxiliary menus
     private String chooseSpecialty() {
         int choice;
-
         do{
             System.out.println("Specialties");
             System.out.println("1. Cardiology");
@@ -196,16 +263,8 @@ public class Menus {
             System.out.println("3. Microbiology");
             System.out.println("4. Neurology");
             System.out.println("Select a specialty:");
-
-            String input = scanner.nextLine();
-
-            try{
-            choice = Integer.parseInt(input);
-            } catch(Exception e){
-                System.err.println("Please enter a number between 1-4");
-                continue;
-            }
-
+            choice = readInt();
+            
             switch (choice) {
                 case 1:
                     return "Cardiology";
@@ -221,6 +280,96 @@ public class Menus {
         } while(true);
     }
 
+    private String chooseExamCategory(){
+        int choice;
+        do{
+            System.out.println("Exam Categories");
+            System.out.println("1. Imaging");
+            System.out.println("2. Microbiological");
+            System.out.println("3. Specialized");
+            System.out.println("Select a category:");
+            choice = readInt();
+            
+            switch(choice){
+                case 1:
+                    return "Imaging";
+                case 2:
+                    return "Microbiological";
+                case 3:
+                    return "Specialized";
+                default:
+                    System.out.println("Please select one of the three Exam Categories");
+            }
+        } while(true);
+    }
+
+    private String chooseExamType(String category){
+        int choice;
+        do{
+            System.out.println("Exam Types");
+
+            switch(category){
+                case "Imaging":
+                    System.out.println("1. MRI");
+                    System.out.println("2. CT");
+                    System.out.println("3. X-Ray");
+
+                    choice = readInt();
+
+                    switch(choice){
+                        case 1: 
+                            return "MRI";
+                        case 2: 
+                            return "CT";
+                        case 3: 
+                            return "X-Ray";
+                        default:
+                            System.out.println("Invalid choice");
+                }
+                break;
+
+                case "Microbiological":
+                    System.out.println("1. Blood");
+                    System.out.println("2. Urine");
+                    System.out.println("3. Swab");
+
+                    choice = readInt();
+
+                    switch(choice){
+                        case 1: 
+                            return "Blood";
+                        case 2: 
+                            return "Urine";
+                        case 3: 
+                            return "Swab";
+                        default:
+                            System.out.println("Invalid choice");
+                }
+                break;
+
+                case "Specialized":
+                    System.out.println("1. Holter");
+                    System.out.println("2. EEG");
+                    System.out.println("3. SPT");
+
+                    choice = readInt();
+
+                    switch(choice){
+                        case 1: 
+                            return "ECG";
+                        case 2: 
+                            return "EEG";
+                        case 3: 
+                            return "Stress Test";
+                        default:
+                            System.out.println("Invalid choice");
+                }
+                break;
+            }
+
+        } while(true);
+    }
+
     private void printAllDoctors(){
         for(Doctor doctor : system.getAllDoctors()){
             System.out.println(doctor);
@@ -230,6 +379,46 @@ public class Menus {
     private void printAllPatients(){
         for(Patient patient : system.getAllPatients()){
             System.out.println(patient);
+        }
+    }
+
+    private void printAllExams(){
+        for(Exam exam : system.getAllExams()){
+            System.out.println(exam);
+        }
+    }
+
+    private int readInt() {
+        while(true){
+            String input = scanner.nextLine().trim();
+
+            if(input.isEmpty()){
+            System.out.println("Please enter a valid number or press 0 to quit.");
+                continue;
+            }
+
+            try{
+                return Integer.parseInt(input);
+            } catch(NumberFormatException e){
+            System.out.println("Invalid number. Try again.");
+            }
+        }
+    }
+
+    private double readDouble() {
+        while(true){
+            String input = scanner.nextLine().trim();
+
+            if(input.isEmpty()){
+            System.out.println("Please enter a valid number or press 0 to quit.");
+                continue;
+            }
+
+            try{
+                return Double.parseDouble(input);
+            } catch(NumberFormatException e){
+            System.out.println("Invalid number. Try again.");
+            }
         }
     }
 
