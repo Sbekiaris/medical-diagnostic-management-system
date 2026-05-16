@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Menus {
@@ -34,7 +35,7 @@ public class Menus {
                     examsMenu();
                     break;
                 case 4:
-                    // appointmentsMenu();
+                    appointmentsMenu();
                     break;
                 case 5:
                     // statisticsMenu();
@@ -77,12 +78,12 @@ public class Menus {
                     System.out.println("Doctor added successfully!");
                     break;
                 case 2:
-                    System.out.println("All Doctors");
-                   printAllDoctors();
+                    System.out.println("All Doctors:");
+                    printAll(system.getAllDoctors());
                     break;
                 case 3:{        // added block scope to prevent conflicts with doctorId and doctor variables
-                    System.out.println("Doctors List");
-                    printAllDoctors();
+                    System.out.println("Doctors List:");
+                    printAll(system.getAllDoctors());
                     System.out.println("Enter doctor ID");
                     int doctorId = readInt();
                     Doctor doctor = system.getDoctor(doctorId);
@@ -99,8 +100,8 @@ public class Menus {
                     break;
                 }
                 case 4:{
-                    System.out.println("Doctors List");
-                    printAllDoctors();
+                    System.out.println("Doctors List:");
+                    printAll(system.getAllDoctors());
                     System.out.println("Enter doctor ID");
                     int doctorId = readInt();
                     Doctor doctor = system.getDoctor(doctorId);
@@ -151,12 +152,12 @@ public class Menus {
                     System.out.println("Patient added successfully!");
                     break;
                 case 2:
-                    System.out.println("All Patients");
-                    printAllPatients();
+                    System.out.println("All Patients:");
+                    printAll(system.getAllPatients());
                     break;
                 case 3:
-                    System.out.println("Patients List");
-                    printAllPatients();
+                    System.out.println("Patients List:");
+                    printAll(system.getAllPatients());
                     System.out.println("Enter a Patient ID to get all available Appointments");
                     int patientId = readInt();
                     Patient patient = system.getPatient(patientId);
@@ -196,8 +197,8 @@ public class Menus {
 
             switch(choice){
                 case 1:
-                    System.out.println("Doctors List");
-                    printAllDoctors();
+                    System.out.println("Doctors List:");
+                    printAll(system.getAllDoctors());
                     System.out.println("Enter Doctor's ID"); 
                     int doctorId = readInt();
                     Doctor doctor = system.getDoctor(doctorId);
@@ -217,12 +218,12 @@ public class Menus {
                     System.out.println("Exam added successfully");
                     break;
                 case 2:
-                    System.out.println("All Exams");
-                    printAllExams();
+                    System.out.println("All Exams:");
+                    printAll(system.getAllExams());
                     break;
                 case 3:
-                    System.out.println("Exams List");
-                    printAllExams();
+                    System.out.println("Exams List:");
+                    printAll(system.getAllExams());
                     System.out.println("Enter an Exam ID to get all Appointments");
                     int examId = readInt();
                     Exam exam = system.getExam(examId);
@@ -249,9 +250,66 @@ public class Menus {
     }
     
     // Appointments menu
-    // private void appointmentsMenu(){
+    private void appointmentsMenu(){
+        int choice;
+        do{
+            System.out.println("\n=== APPOINTMENTS MENU ===");
+            System.out.println("1. Add an Appointment");
+            System.out.println("2. Show all Appointments");
+            System.out.println("3. Show Patient's Appointments");
+            System.out.println("4. Delete an Appointment");
+            System.out.println("5. Show Day's Appointments");
+            System.out.println("0. Return to Main Menu");
+            System.out.println("Choose an option, or press 0 to go to Main Menu");
+            choice = readInt();
 
-    // }
+            switch(choice){
+                case 1:
+                    System.out.println("Patients List:");
+                    printAll(system.getAllPatients());
+                    System.out.println("Enter Patient's ID");
+                    int patientId = readInt();
+                    System.out.println("Exams List:");
+                    printAll(system.getAllExams());
+                    System.out.println("Enter Exam's ID");
+                    int examId = readInt();
+                    System.out.println("Enter Appointment's date(DD:MM:YYYY)");
+                    String date = scanner.nextLine();
+                    boolean fastResults = chooseFastResults();
+                    String result = system.validateAppointment(patientId, examId, date);
+
+                    switch(result){
+                        case "INVALID_PATIENT":
+                            System.out.println("Patient not found");
+                            return;
+                        case "INVALID_EXAM":
+                        System.out.println("Exam not found");
+                        return;
+                        case "INVALID_DATE":
+                            System.out.println("Invalid date format (DD:MM:YYYY)");
+                                return;
+                        case "FULL_SLOTS":
+                            System.out.println("No available slots for this exam on this date");
+                            return;
+                        case "PASS":
+                            break;
+                    }
+
+                    boolean success = system.addAppointment(patientId, examId, fastResults, date);
+                    if(success){
+                        System.out.println("Appointment added successfully!");
+                    } else{
+                        System.out.println("Failed to add appointment");
+                    }
+                    break;
+                case 2:
+                    System.out.println("All Appointments");
+                    printAll(system.getAllAppointments());
+                    break;
+            }
+
+        } while(choice !=0);
+    }
     
     // auxiliary menus
     private String chooseSpecialty() {
@@ -370,22 +428,33 @@ public class Menus {
         } while(true);
     }
 
-    private void printAllDoctors(){
-        for(Doctor doctor : system.getAllDoctors()){
-            System.out.println(doctor);
-        }
+    private boolean chooseFastResults(){
+        String choice;
+        do{
+            System.out.println("Does the patient wish fast results?(Yes/No)");
+            choice = scanner.nextLine();
+            switch(choice.toLowerCase()){
+            case "yes":
+            case "y":
+                return true;
+            case "no":
+            case "n":
+                return false;
+            default:
+                System.out.println("Invalid choice. Please type Yes or No");
+            }
+        } while(true);
     }
 
-    private void printAllPatients(){
-        for(Patient patient : system.getAllPatients()){
-            System.out.println(patient);
+    private <T> void printAll(List<T> list){
+        if(list.isEmpty()){
+            System.out.println("No records found.");
+            return;
         }
-    }
+        for(T entity : list){
+            System.out.println(entity);
+        }
 
-    private void printAllExams(){
-        for(Exam exam : system.getAllExams()){
-            System.out.println(exam);
-        }
     }
 
     private int readInt() {
