@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -38,7 +39,7 @@ public class Menus {
                     appointmentsMenu();
                     break;
                 case 5:
-                    // statisticsMenu();
+                    statisticsMenu();
                     break;
                 case 0:
                     System.out.println("Exiting...");
@@ -52,7 +53,7 @@ public class Menus {
 
     // submenus implementation
 
-    // Doctors Menu
+    // doctors Menu
     private void doctorsMenu(){
         int choice;
         do{
@@ -68,9 +69,9 @@ public class Menus {
             switch(choice){
                 case 1:
                     System.out.println("Enter Doctor's name:");
-                    String name = scanner.nextLine();
+                    String name = scanner.nextLine().trim();
                     System.out.println("Enter Doctor's phone");
-                    String phone = scanner.nextLine();
+                    String phone = scanner.nextLine().trim();
                     System.out.println("Enter years of experience:");
                     int years = readInt();
                     String specialty = chooseSpecialty();
@@ -94,9 +95,7 @@ public class Menus {
                     System.out.println("Selected Doctor:");
                     System.out.println(doctor);
                     System.out.println("Doctor's Examinations");
-                    for(Exam exam : system.getExamsByDoctor(doctorId)){
-                        System.out.println(exam);
-                    }
+                    printAll(system.getExamsByDoctor(doctorId));
                     break;
                 }
                 case 4:{
@@ -112,9 +111,7 @@ public class Menus {
                     System.out.println("Selected Doctor:");
                     System.out.println(doctor);
                     System.out.println("Doctor's Appointments");
-                    for(Appointment appointment : system.getDoctorAppointments(doctorId)){
-                        System.out.println(appointment);
-                }
+                    printAll(system.getDoctorAppointments(doctorId));
                     break;
                     }
                 case 0:
@@ -128,7 +125,7 @@ public class Menus {
 
     }
 
-    // Patients Menu
+    // patients Menu
     private void patientsMenu(){
         int choice;
         do{
@@ -143,11 +140,11 @@ public class Menus {
             switch(choice){
                 case 1:
                     System.out.println("Enter Patient's name: ");
-                    String name = scanner.nextLine();
+                    String name = scanner.nextLine().trim();
                     System.out.println("Enter Patient's phone: ");
-                    String phone = scanner.nextLine();
+                    String phone = scanner.nextLine().trim();
                     System.out.println("Enter Patient's email: ");
-                    String email = scanner.nextLine();
+                    String email = scanner.nextLine().trim();
                     system.addPatient(name, phone, email);
                     System.out.println("Patient added successfully!");
                     break;
@@ -167,10 +164,8 @@ public class Menus {
                     }
                     System.out.println("Selected Patient");
                     System.out.println(patient);
-                    System.out.println("Patient's Appointments");
-                    for(Appointment appointment : system.getAppointmentsByPatient(patientId)){
-                        System.out.println(appointment);
-                    }
+                    System.out.println("Patient's Appointments:");
+                    printAll(system.getAppointmentsByPatient(patientId));
                     break;
                 case 0:
                     System.out.println("Exiting Patients Menu...");
@@ -179,11 +174,10 @@ public class Menus {
                     System.out.println("Please select 1 - 3 or press 0 to go to the Main Menu");
 
             }
-
         } while(choice !=0);
     }
 
-    // Exams Menu
+    // exams Menu
     private void examsMenu(){
         int choice;
         do{
@@ -207,7 +201,7 @@ public class Menus {
                         break;
                     }
                     System.out.println("Enter exam name:");
-                    String examName = scanner.nextLine();
+                    String examName = scanner.nextLine().trim();
                     String category = chooseExamCategory();
                     String examType = chooseExamType(category);
                     System.out.println("Enter max slots per day:");
@@ -234,9 +228,7 @@ public class Menus {
                     System.out.println("Selected Exam");
                     System.out.println(exam);
                     System.out.println("Exam's Appointments");
-                    for(Appointment appointment : system.getAppointmentsByExam(examId)){
-                        System.out.println(appointment);
-                    }
+                    printAll(system.getAppointmentsByExam(examId));
                     break;
                 case 0:
                     System.out.println("Exiting Exams Menu...");
@@ -245,11 +237,10 @@ public class Menus {
                     System.out.println("Please select 1 - 3 or press 0 to go to the Main Menu");
 
             }
-
         } while(choice !=0);
     }
     
-    // Appointments menu
+    // appointments menu
     private void appointmentsMenu(){
         int choice;
         do{
@@ -264,7 +255,7 @@ public class Menus {
             choice = readInt();
 
             switch(choice){
-                case 1:
+                case 1:{
                     System.out.println("Patients List:");
                     printAll(system.getAllPatients());
                     System.out.println("Enter Patient's ID");
@@ -273,42 +264,166 @@ public class Menus {
                     printAll(system.getAllExams());
                     System.out.println("Enter Exam's ID");
                     int examId = readInt();
-                    System.out.println("Enter Appointment's date(DD:MM:YYYY)");
-                    String date = scanner.nextLine();
                     boolean fastResults = chooseFastResults();
-                    String result = system.validateAppointment(patientId, examId, date);
+                    System.out.println("Enter Appointment's date(DD:MM:YYYY)");
+                    String date = scanner.nextLine().trim();
+                    String result = system.addAppointment(patientId, examId, fastResults, date);
 
                     switch(result){
                         case "INVALID_PATIENT":
                             System.out.println("Patient not found");
-                            return;
+                            break;
                         case "INVALID_EXAM":
                         System.out.println("Exam not found");
-                        return;
+                        break;
                         case "INVALID_DATE":
                             System.out.println("Invalid date format (DD:MM:YYYY)");
-                                return;
+                                break;
                         case "FULL_SLOTS":
                             System.out.println("No available slots for this exam on this date");
-                            return;
-                        case "PASS":
+                            break;
+                        case "SUCCESS":
+                            System.out.println("Appointment added successfully!");
                             break;
                     }
-
-                    boolean success = system.addAppointment(patientId, examId, fastResults, date);
-                    if(success){
-                        System.out.println("Appointment added successfully!");
-                    } else{
-                        System.out.println("Failed to add appointment");
-                    }
                     break;
+                }
                 case 2:
-                    System.out.println("All Appointments");
+                    System.out.println("All Appointments:");
                     printAll(system.getAllAppointments());
                     break;
-            }
+                case 3:{
+                    System.out.println("Patients List:");
+                    printAll(system.getAllPatients());
+                    System.out.println("Enter a Patient ID to get all available Appointments");
+                    int patientId = readInt();
+                    Patient patient = system.getPatient(patientId);
+                    if(patient == null){
+                        System.out.println("Patient not found");
+                        break;
+                    }
+                    System.out.println("Selected Patient");
+                    System.out.println(patient);
+                    System.out.println("Patient's Appointments:");
+                    printAll(system.getAppointmentsByPatient(patientId));
+                    break;
+                }
+                case 4:{
+                    System.out.println("All Appointments:");
+                    printAll(system.getAllAppointments());
+                    System.out.println("Enter an Appointment ID to delete:");
+                    int appointmentId = readInt();
+                    Appointment appointment = system.getAppointment(appointmentId);
+                    if(appointment == null){
+                        System.out.println("Appointment not found");
+                        break;
 
+                    }
+                    System.out.println("Selected Appointment:");
+                    System.out.println(appointment);
+                    System.out.println("Are you sure you want to delete this appointment? (yes/no)");
+                    String confirm = scanner.nextLine().trim().toLowerCase();
+                    if(confirm.equals("yes") || confirm.equals("y")){
+                        boolean success = system.deleteAppointment(appointmentId);
+                        if(success){
+                            System.out.println("Appointment deleted successfully!");
+                        } else{
+                            System.out.println("Failed to delete appointment");
+                        }
+                    } else{
+                        System.out.println("Cancelled Deletion.");
+                    }
+                    break;
+                }
+                case 5:
+                    System.out.println("Enter Appointment's Date(DD:MM:YYYY):");
+                    String date = scanner.nextLine().trim();
+                    ArrayList<Appointment> dateAppointments = system.getAppointmentsByDate(date);
+                    if(dateAppointments.isEmpty()){
+                        System.out.println("No Appointments found for " + date);
+                        break;
+                    }
+                    for(Appointment appointment : dateAppointments){
+                        Exam exam = system.getExam(appointment.getExamId());
+                        Patient patient = system.getPatient(appointment.getPatientID());
+                        System.out.println(appointment + " Patient: " + patient.getPatientName() + " Exam: " + exam.getExamName());
+                    }
+                    break;
+                case 0:
+                    System.out.println("Exiting Appointments Menu...");
+                    break;
+                default:
+                    System.out.println("Please select 1 - 5 or press 0 to go to the Main Menu");
+            }
         } while(choice !=0);
+    }
+
+    // statistics menu
+    private void statisticsMenu(){
+        int choice;
+        do{
+            System.out.println("\n=== STATISTICS MENU ===");
+            System.out.println("1. Revenue Per Patient");
+            System.out.println("2. Revenue Per Exam");
+            System.out.println("3. Revenue Per Exam Category");
+            System.out.println("0. Return to Main Menu");
+            System.out.println("Choose an option, or press 0 to go to Main Menu");
+            choice = readInt();
+
+            switch(choice){
+                case 1:
+                    for(Patient patient : system.getAllPatients()){
+                        System.out.println("Patient: " + patient);
+                        ArrayList<Appointment> appointments = system.getAppointmentsByPatient(patient.getPatientID());
+                        if(appointments.isEmpty()){
+                            System.out.println("No appointments found.");
+                            continue;
+                        }
+                        for(Appointment appointment : appointments){
+                            System.out.println(appointment + " cost: " + system.calculateAppointmentCost(appointment));
+                        }
+                        System.out.println("Total Revenue for patient: " + system.calculateRevenueByPatient(patient.getPatientID()));
+                    }
+                    System.out.println("Total Revenue from all Patients: " + system.calculateTotalRevenue());
+                    break;
+                case 2:
+                    for(Exam exam : system.getAllExams()){
+                        System.out.println("Exam: " + exam);
+                        ArrayList<Appointment> appointments = system.getAppointmentsByExam(exam.getExamID());
+                        if(appointments.isEmpty()){
+                            System.out.println("No appointments found.");
+                            continue;
+                        }
+                        for(Appointment appointment : appointments){
+                            System.out.println(appointment + " cost: " + system.calculateAppointmentCost(appointment));
+                        }
+                        System.out.println("Total Revenue for exam: " + system.calculateRevenueByExam(exam.getExamID()));
+                    }
+                    System.out.println("Total Revenue from all exams: " + system.calculateTotalRevenue());
+                    break;
+                case 3:
+                    String[] categories = {"Imaging", "Microbiological", "Specialized"}; // created array as number of categories is given and fixed
+                    for(String category : categories){
+                        System.out.println("Category: " + category);
+                        ArrayList<Appointment> appointments = system.getAppointmentsByCategory(category);
+                        if(appointments.isEmpty()){
+                            System.out.println("No appointments found.");
+                            continue;
+                        }
+                        for(Appointment appointment : appointments){
+                            System.out.println(appointment + " cost: " + system.calculateAppointmentCost(appointment));
+                        }
+                        System.out.println("Total Revenue for category: " + system.calculateRevenueByCategory(category));
+                    }
+                    System.out.println("Total Revenue from all categories: " + system.calculateTotalRevenue());
+                    break;
+                case 0:
+                    System.out.println("Exiting Statistics Menu...");
+                    break;
+                default:
+                    System.out.println("Please select 1 - 3 or press 0 to go to the Main Menu");
+            }
+        } while(choice != 0);
     }
     
     // auxiliary menus
@@ -432,7 +547,7 @@ public class Menus {
         String choice;
         do{
             System.out.println("Does the patient wish fast results?(Yes/No)");
-            choice = scanner.nextLine();
+            choice = scanner.nextLine().trim();
             switch(choice.toLowerCase()){
             case "yes":
             case "y":
@@ -454,7 +569,6 @@ public class Menus {
         for(T entity : list){
             System.out.println(entity);
         }
-
     }
 
     private int readInt() {
