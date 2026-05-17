@@ -543,7 +543,7 @@ public class Menus {
         } while(true);
     }
 
-    private boolean chooseFastResults(){
+    private boolean chooseFastResults(){ // auxiliary method to store the boolean value of fastResults
         String choice;
         do{
             System.out.println("Does the patient wish fast results?(Yes/No)");
