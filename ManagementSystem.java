@@ -167,15 +167,15 @@ public class ManagementSystem{
             return "FULL_SLOTS";
         }
         
-        return "PASS"; // passed all validates
+        return "SUCCESS"; // passed all validates
     }
 
     // add appointment
-    public boolean addAppointment(int patientId, int examId, boolean fastResults, String stringDate) {
-        String result = validateAppointment(patientId, examId, stringDate);
+    public String addAppointment(int patientId, int examId, boolean fastResults, String stringDate) {
+        String validation = validateAppointment(patientId, examId, stringDate);
 
-        if(!result.equals("PASS")){
-            return false;
+        if(!validation.equals("SUCCESS")){
+            return validation;
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd:MM:yyyy");
@@ -185,7 +185,7 @@ public class ManagementSystem{
         Appointment appointment = new Appointment(id, patientId, examId, fastResults, date);
         appointments.put(id, appointment);
         
-        return true;
+        return "SUCCESS";
     }
 
     // get all appointments

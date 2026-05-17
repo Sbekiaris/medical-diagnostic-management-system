@@ -65,7 +65,7 @@ public class Appointment{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd:MM:yyyy");
         return "Appointment ID : " + appointmentId +
             ", Patient ID : " + patientID +
-            ", Exam: " + examId +
+            ", Exam ID : " + examId +
             ", Fast Results: " + fastResults +
             ", Exam Date: " + examDate.format(formatter);
     }
