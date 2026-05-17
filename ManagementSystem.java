@@ -142,10 +142,10 @@ public class ManagementSystem{
 
     // Appointment methods
 
-    // add appointment
-    public boolean addAppointment(int patientId, int examId, boolean fastResults, String stringDate){ // return value to boolean for appointment validation in Menus
+    // validate appointment
+    public String validateAppointment(int patientId, int examId, String stringDate){ // this method validates the users input before addAppointment
         if(!patients.containsKey(patientId)){ // check whether the patientId is registered
-            return false;
+            return "INVALID_PATIENT";
         }
         // date validation for the format dd:MM:yyyy 
         LocalDate date;
@@ -153,24 +153,39 @@ public class ManagementSystem{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd:MM:yyyy"); // should we change the : to / ?
             date = LocalDate.parse(stringDate, formatter);
         } catch(Exception e){ // if the format is not the appropriate, an exception will be catched
-            return false;
+            return "INVALID_DATE";
         }
         Exam exam = exams.get(examId);
         if(exam==null){ // check if exam exists
-            return false;
+            return "INVALID_EXAM";
         }
         int count = (int) appointments.values()         // count() returns long, casted to int
                                     .stream()
                                     .filter(a -> a.getExamId() == examId && a.getExamDate().equals(date)) // filter per day from exam - appointment relationship
                                     .count();
         if(count >= exam.getMaxSlotsPerDay()){
-            return false;
+            return "FULL_SLOTS";
         }
+        
+        return "SUCCESS"; // passed all validates
+    }
+
+    // add appointment
+    public String addAppointment(int patientId, int examId, boolean fastResults, String stringDate) {
+        String validation = validateAppointment(patientId, examId, stringDate);
+
+        if(!validation.equals("SUCCESS")){
+            return validation;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd:MM:yyyy");
+        LocalDate date = LocalDate.parse(stringDate, formatter);
+        
         int id = getNextAppointmentID();
         Appointment appointment = new Appointment(id, patientId, examId, fastResults, date);
         appointments.put(id, appointment);
         
-        return true;
+        return "SUCCESS";
     }
 
     // get all appointments
