@@ -42,7 +42,7 @@ public class Menus {
                     statisticsMenu();
                     break;
                 case 0:
-                    System.out.println("Exiting...");
+                    System.out.println("Exiting system...");
                     break;
                 default:
                     System.out.println("Please select 1 - 5 or press 0 to exit");
@@ -603,6 +603,12 @@ public class Menus {
             System.out.println("Invalid number. Try again.");
             }
         }
+    }
+
+    // scanner close method for Main
+
+    public void closeScanner(){
+        scanner.close(); // this will be used in Main as scanner is private attribute
     }
 
 }

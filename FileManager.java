@@ -198,4 +198,16 @@ public class FileManager{
         loadAppointments();
         system.syncCounters();
     }
+
+    // check if files exist
+    
+    public boolean filesExist(){
+        File doctors = new File("doctors.txt");
+        File patients = new File("patients.txt");
+        File exams = new File("exams.txt");
+        File appointments = new File("appointments.txt");
+
+        return doctors.exists() && patients.exists() && exams.exists() && appointments.exists();
+
+    }
 }
